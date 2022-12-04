@@ -1,1 +1,323 @@
+package imagefileio;
+
+public class ImageFileIO {
+    
+    /**
+     * Prepare student's own SID in "sid.pgm"
+     * This method should not declare "throws Exception"
+     */
+    public static void prepareSID() // NO throws Exception here!!
+    {
+        try
+        {
+            PGM sid;        
+            PGM digit;
+            
+            // STUDENTS SHOULD CUSTOMIZE THIS METHOD TO PREPARE YOUR OWN sid.pgm
+
+            // read and copy first digit
+            digit = new PGM();
+            digit.read("digit1.pgm");
+            sid = new PGM(digit);
+
+            // read and stack with next digit
+            digit = new PGM();
+            digit.read("digit1.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit5.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit5.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit1.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit7.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit5.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit8.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit9.pgm");
+            sid.stackWith(digit);
+            digit = new PGM();
+            digit.read("digit8.pgm");
+            sid.stackWith(digit);
+
+            sid.write("sid.pgm");
+        }
+        // GIVEN catch block as a learning example, DO NOT MODIFY
+        catch (Exception exceptionObject)
+        {
+            System.out.println(exceptionObject.getMessage());
+        }
+    }
+    
+    /**
+     * ImageFileIO main method
+     * @param args is an array of command line arguments
+     * @throws Exception 
+     */
+    public static void main(String[] args) throws Exception
+    {
+        /** DO NOT MODIFY THE GIVEN main() METHOD! */
+        
+        /**
+         * Before you FINISH another class PGM.java PROPERLY,
+         * there may be errors and warnings in main() and prepareSID() methods.
+         */
+                
+        PGM img1 = new PGM();
+        // you may ignore the warning about text block conversion
+        img1.setPixels(4, 2, "127\t255\t255\t127\n" + "255\t0\t0\t255\n");
+        System.out.println("*** Demonstrate use of getter methods ***");
+        System.out.println("img1 of size " + img1.getWidth() + "x" + img1.getHeight() + ":");
+        System.out.println(img1.getPixels());
+        img1.write("Gray_4by2.pgm");
+        img1.screenShow();
+//
+        PGM img2 = new PGM();
+        // you may ignore the warning about text block conversion
+        img2.setPixels(4, 2, "0\t70\t180\t0\n" + "255\t190\t80\t255\n");
+        img2.stackWith(img1);
+        img2.stackWith(img1);
+        System.out.println("*** Demonstrate use of stackWith() ***");
+        System.out.println("img2 of size " + img2.getWidth() + "x" + img2.getHeight() + ":");
+        System.out.println(img2.getPixels());
+        img2.write("Gray_4by6.pgm");
+        img2.screenShow();
+        
+        System.out.println("*** Demonstrate use of read() and write() ***");
+        System.out.println("    Generate Excel Tab-delimited Text file");
+        System.out.println("    Show that some PGM formatted files are compatible to .tab");
+        PGM img3 = new PGM();
+        img3.read("digit0.pgm");
+        img3.write("digit0.tab");
+        img3.screenShow();
+        
+        System.out.println("*** Demonstrate use of invert() ***");
+        PGM dong = new PGM();
+        dong.read("DongDong.pgm");
+        dong.invert().write("DongDong_inv.pgm");
+        System.out.println();
+        
+        System.out.println("*** Send message to student's prepareSID() ***");
+        prepareSID();
+        
+        /** DO NOT MODIFY THE GIVEN main() METHOD! */
+    }    
+}
+package imagefileio;
+
+import java.io.File;
+import java.io.PrintStream;
+import java.util.Scanner;
+
+public class PGM {
+    
+    /** all field are private */
+    private int width, height, maxValue;
+    private String pixels;
+
+    /**
+     * Default constructor takes no parameters.
+     * Initializes this new object with width 0, height 0, maxValue 255
+     * and empty String "" in pixels
+     */
+        /*** Students' work here ***/
+    public PGM(){
+        width = 0;
+        height = 0;
+        maxValue = 255;
+        pixels = "";
+    }
+
+    /**
+     * Constructor that "clones" an existing PGM object
+     * Copies ALL fields from given img to this new object using assignment statements.
+     * @param img is an existing PGM object
+     */
+        /*** Students' work here ***/
+    public PGM(PGM img){
+        width = img.width;
+        height = img.height;
+        maxValue = img.maxValue;
+        pixels = img.pixels;
+    }
+
+    /**
+     * Read from a PGM File using Scanner.
+     * 1. Create a new File object and then a new Scanner object
+     * 2. Read first token using Scanner object's next() method to get header
+     * 3. If header is not equal to "P2", throw new Exception("Invalid header");
+     * 4. Read following three integers as width, height and maxValue
+     * 5. Read many pixel value lines AND concatenate all lines (plus newlines) as one single pixels String
+     * 6. Close the Scanner object
+     * @param filename is an existing ASCII file containing an image in PGM format
+     * @throws Exception 
+     */
+    public void read(String filename) throws Exception
+    {
+        /*** Students' work here ***/
+        File pgmFile = new File(filename);
+        Scanner value = new  Scanner(pgmFile);
+        
+        String header = value.next();
+        if(!header.equals("P2")){
+            throw new Exception("Invalid header");
+        }
+        
+        width = value.nextInt();
+        height = value.nextInt();
+        maxValue = value.nextInt();
+        
+        value.useDelimiter("    ");
+        while(value.hasNext()){
+            pixels += value.next();
+        }
+        System.out.println("Read " + filename + " with header " + header + " of image size " + width + "x" + height);
+        value.close();
+    }
+
+    /**
+     * Write to a PGM file using PrintStream.
+     * 1. Declare and initialize a String header with content "P2"
+     * 2. Create a PrintStream object with given filename
+     * 3. Write header, width, height, maxValue through the PrintStream object
+     * 4. Write the pixels (a String with many lines of pixel values)
+     * 5. Close the PrintStream object
+     * @param filename is a file to be created/ overwritten in working folder
+     * @throws Exception 
+     */
+    public void write(String filename) throws Exception
+    {
+        /*** Students' work here ***/
+        String header = "P2";
+        PrintStream pgmFile;
+        pgmFile = new PrintStream(filename);
+        
+        pgmFile.println(header);
+        pgmFile.print(width);
+        pgmFile.println("   "+ height);
+        pgmFile.println(maxValue);
+        
+        pgmFile.print(pixels);
+        System.out.println("Wrote " + filename + " with header " + header + " of image size " + width + "x" + height);
+        pgmFile.close();
+    }
+    
+    /**
+     * getWidth() method
+     * @return width is an int
+     */
+        /*** Students' work here ***/
+    public int getWidth(){
+        return width;
+    }
+    
+    /**
+     * getHeight() method
+     * @return height is an int
+     */
+        /*** Students' work here ***/
+    public int getHeight(){
+        return height;
+    }
+    
+    /**
+     * getPixels() method
+     * @return pixels String that is immutable
+     */
+    public String getPixels()
+    {
+        return pixels;
+    }
+
+    /**
+     * setPixels replaces content in this PGM image with given width, height and pixels
+     * @param int newWidth
+     * @param int newHeight
+     * @param String newPixels
+     * @return type is void
+     */
+        /*** Students' work here ***/
+    public void setPixels(int newWidth, int newHeight, String newPixels){
+        width = newWidth;
+        height = newHeight;
+        pixels = newPixels;
+    }
+
+    /**
+     * Stack this image on top of another image, keeping result in this image.
+     * Both source images should have the same width; otherwise return without action.
+     * Resultant image has the same width as that of both source images.
+     * Height of resultant image is the sum of the height of both source images.
+     * Pixels in resultant image is the concatenated result of the source pixel Strings.
+     * @param img is another image that is copied and unaffected.
+     */
+    public void stackWith(PGM img)
+    {
+        /*** Students' work here ***/
+        this.height += img.height;
+        if(this.width == img.width){
+            this.pixels += img.pixels;
+        }
+    }
+    
+    /**
+     * Invert this image and return a new resultant image.
+     * Refer to the technique demonstrated in given method screenShow().
+     * Use maxValue to invert each and every extracted pixel value.
+     * Use new StringBuilder object to rebuild a new pixels String efficiently.
+     * Separate the resultant pixel values by tabs and newlines.
+     * @return a new PGM that represents the inverted image of the source
+     */
+    
+    public PGM invert()
+    {
+        /*** Students' work here ***/
+        
+        PGM invert = new PGM();
+        invert.height = height;
+        invert.width = width;
+        
+        Scanner values = new Scanner(pixels);
+        for(int h = 0; h < height; h++)
+        {
+            for(int w = 0; w < width; w++){
+                int orginalValue = values.nextInt();
+                int pixelsValue1 = (maxValue - orginalValue); 
+                String pixelsValue2 = Integer.toString(pixelsValue1) + "    ";
+                StringBuilder str1 = new StringBuilder(pixelsValue2);
+                if(w == (width - 1 ))
+                    str1.append("\n");
+                invert.pixels += str1.toString();
+            }
+        }
+        
+        return invert;
+    }
+    
+    /**
+     * Display this PGM as pixel values on screen for inspection and debugging.
+     * Demonstrate how to use Scanner to parse pixel values in a String
+     * in order to perform screen formatting.
+     */
+    public void screenShow()
+    {
+        System.out.println("Screen show of image size " + width + "x" + height + ":");
+        Scanner values = new Scanner(pixels);
+        for (int h = 0; h < height; h++) {
+            for (int w = 0; w < width; w++)
+                System.out.printf("%4d", values.nextInt());
+            System.out.println();
+            System.out.println();
+        }
+    }
+}
 
