@@ -368,7 +368,7 @@ public class PPM {
                 }
                 result.pixels[h][w][RED] =  (int)(sumRed / 25);
                 result.pixels[h][w][GREEN] = (int)(sumGreen / 25);
-                result.pixels[h][w][GREEN] = (int)(sumBlue / 25);
+                result.pixels[h][w][BLUE] = (int)(sumBlue / 25);
                 
             }
         }    
