@@ -1,4 +1,4 @@
-// Draw a smilling face
+// Exercise 1(a): Draw a smilling face
 import com.educative.graphics.*;
 
 class Smiley {
@@ -62,7 +62,7 @@ class Smiley {
   }
 }
 
-// Exercise
+// Exercise 1b: method calling
 import com.educative.graphics.*;
 
 class SmileyFactored {
@@ -97,4 +97,14 @@ class SmileyFactored {
     drawEyes();
     c.draw();
   }
+}
+
+// Exercise 2
+class Exercise{
+    public static void main(String[] args){
+        System.out.println("Hello, hello.");
+        System.out.println("I don't know why you say goodbye.");
+        System.out.println("I say hello.");
+
+    }
 }
