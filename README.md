@@ -1,2 +1,2 @@
-# CSCI1130-JAVA
-This is my JAVA course in CUHK
+# JAVA
+This is all my JAVA works
