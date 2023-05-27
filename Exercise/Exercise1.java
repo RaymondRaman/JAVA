@@ -150,3 +150,21 @@ class Smile {
     drawSmile(c, 100, 100, 0.5);
   }
 }
+
+// Translation exercise: factor
+class PrintFactors {
+  public static void printFactors(int number){
+    int possible_factor = 1;
+    while (possible_factor <= number) {
+      if(number % possible_factor == 0) {
+        System.out.println(possible_factor + " is a factor of " + number + ".");
+      }
+      possible_factor++;
+    }
+  }
+
+  public static void main(String[] args) {
+    printFactors(42);
+  }
+}
+
