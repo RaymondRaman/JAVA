@@ -85,3 +85,38 @@ class XShape extends Shape {
   }
   
 }
+
+// Associate Vehicle and Its Driver
+class Vehicle {
+  
+   // Complete this implementation
+    int id;
+    String model;
+
+   public Vehicle(int id, String model) {
+      this.id = id;
+      this.model = model;
+   }
+}
+
+class Driver{
+    String driverName;
+   Vehicle vehicle;
+   // Complete this implementation
+   public Driver(String driverName, Vehicle v) {
+      this.driverName = driverName;
+      vehicle = v;
+   }
+  
+}
+
+class Main {
+  
+   public static void main(String args[]) {
+	    // Write your code here
+      Vehicle vehicle = new Vehicle(4453, "Volvo S60");
+       Driver John = new Driver("John", vehicle);
+       System.out.println(John.driverName + " is a driver of car Id: " + John.vehicle.id);
+   }
+  
+}
