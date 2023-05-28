@@ -67,3 +67,21 @@ class Car extends Vehicle{ // This line needs to be changed.
   }
   
 }
+
+// modify the getName() method of the derived class
+// Derived Class
+class XShape extends Shape { 
+  
+  private String name;
+  
+  public XShape(String name) { // Default Constructor
+    this.name = name;
+  }
+  
+  // Overridden Method
+  public String getName() { 
+    // write your code here
+    return super.getName() + ", " + this.name;
+  }
+  
+}
