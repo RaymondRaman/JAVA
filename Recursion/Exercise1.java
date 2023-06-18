@@ -64,3 +64,35 @@ public static void swap(char[] array, int i, int j) {
     array[j] = c;
 }
 
+// Sort an Array
+class Solution {
+    public static void sortArray(int[] array, int n) {
+        if (n==1) {
+            return;
+        }
+        for (int i = 0; i < n-1; i++) {
+            if (array[i] > array[i+1]) {
+                int temp = array[i];
+                array[i] = array[i+1];
+                array[i+1] = temp;
+            }
+        }
+        sortArray(array, n-1);
+    }
+}
+
+//  Search for a Value in a Linked List
+class Solution {
+    public static boolean search(Node head, int num) {
+      if(head == null) {
+        return false;
+      } else {
+          if (head.data == num) {
+          return true;
+        } else {
+          return search(head.next, num);
+        }
+      }
+    } 
+}
+
